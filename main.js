@@ -13,6 +13,10 @@ const discordWebhookURL = process.env.DISCORD_WEBHOOK_URL;
 
 const { Webhook } = require('simple-discord-webhooks');
 
+// https://github.com/apify/fingerprint-injector#usage-with-the-puppeteer
+const FingerprintGenerator = require('fingerprint-generator');
+const { FingerprintInjector } = require('fingerprint-injector');
+
 var exitWithError = false;
 if (!productURL) {
   console.error("PRODUCT_URL not set");
@@ -24,6 +28,14 @@ if (exitWithError) {
 }
 
 (async () => {
+  const fingerprintInjector = new FingerprintInjector();
+
+  const fingerprintGenerator = new FingerprintGenerator({
+    devices: ['desktop'],
+    browsers: [{ name: 'chrome', minVersion: 88 }],
+  });
+
+  const { fingerprint } = fingerprintGenerator.getFingerprint();
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
     defaultViewport: {
@@ -33,6 +45,7 @@ if (exitWithError) {
     executablePath: path.resolve("/usr/bin/google-chrome"),
   });
   const page = await browser.newPage();
+  await fingerprintInjector.attachFingerprintToPuppeteer(page, fingerprint);
   if (debug == true) {
     page.on('console', consoleObj => console.log(consoleObj.text()));
   }
@@ -51,7 +64,7 @@ if (exitWithError) {
         req.abort()
       }
     }
-  })
+  });
 
   // Intercept responses
   page.on('response', (resp) => {
