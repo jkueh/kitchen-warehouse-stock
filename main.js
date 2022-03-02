@@ -73,12 +73,10 @@ if (exitWithError) {
     for (let stateIndex = 0; stateIndex < stockData.stocks.length; stateIndex++) {
       const state = stockData.stocks[stateIndex];
 
-      console.log("STATE DATA:")
-      console.log(state);
-      // for (let locationIndex = 0; locationIndex < state.locations.length; locationIndex++) {
-      //   const location = state.locations[locationIndex];
-      //   console.log(location);
-      // }
+      for (let locationIndex = 0; locationIndex < state.locations.length; locationIndex++) {
+        const location = state.locations[locationIndex];
+        console.log(location);
+      }
     }
 
     // Things to do if a discord webhook has been specified
@@ -120,6 +118,9 @@ if (exitWithError) {
         }
       ]);
     }
+
+    // We've got what we need, time to bail!
+    process.exit(0);
   }
 
   // Intercept responses
