@@ -69,7 +69,13 @@ if (exitWithError) {
 
   // Intercept responses
   page.on('response', (resp) => {
-    console.log("<-", resp.url())
+    respUrl = resp.url();
+    console.log("<-", respUrl)
+    if (respUrl.startsWith("https://www.kitchenwarehouse.com.au/app/site/hosting/scriptlet.nl")) {
+      if (/script=3587/.test(respUrl) && /type=check_stock/.test(respUrl)) {
+        console.log(await resp.text())
+      }
+    }
   })
 
   await page.goto(productURL, {
