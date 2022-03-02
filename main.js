@@ -84,7 +84,7 @@ if (exitWithError) {
       }
     }
 
-    console.log("All Stock Data:", stockAvailability)
+    console.log("All Stock Data:", stockAvailability);
 
     // Things to do if a discord webhook has been specified
     if (discordWebhookURL) {
@@ -97,7 +97,7 @@ if (exitWithError) {
         messageArr.push(`${store.state}: ${store.available}`);
       }
 
-      // var webhookFields = [];
+      var webhookFields = [];
       // for (store of stockAvailability) {
       //   // webhookFields.push({ name: date.toDateString(), value: value, inline: false });
       //   // webhookFields.push({ name: "Store", value: store.name });
@@ -115,12 +115,18 @@ if (exitWithError) {
         webhookFooter.url = `https://github.com/jkueh/kitchen-warehouse-stock/runs/${githubJobId}`;
       }
 
+      var totalStock = 0;
+      for (store of stockAvailability) {
+        totalStock += store.available;
+      }
+      webhookFields.push({ name: "Total Stock", value: totalStock });
+
       console.log("Sending webhook");
       // await webhook.send(`<@168004824628068352> BVMS Appointments:\n\`\`\`${messageArr.join("\n")}\`\`\``);
       await webhook.send(`<@168004824628068352>\n` + "```" + `${messageArr.join("\n")}` + "```", [
         {
           title: `Current Stock Levels`,
-          // fields: webhookFields,
+          fields: webhookFields,
           footer: webhookFooter,
         }
       ]);
