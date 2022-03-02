@@ -74,13 +74,11 @@ if (exitWithError) {
 
     for (let stateIndex = 0; stateIndex < stockData.stocks.length; stateIndex++) {
       const state = stockData.stocks[stateIndex];
-      console.log("STATE:", state.id);
+      // console.log("STATE:", state.id);
       // console.log(state);
 
       for (let locationIndex = 0; locationIndex < state.locations.length; locationIndex++) {
         const location = state.locations[locationIndex];
-        console.log(location);
-
         // Push availability data
         stockAvailability.push({ ...location, stateName: state.name, stateId: state.id });
       }
