@@ -68,9 +68,10 @@ if (exitWithError) {
   // });
 
   async function processData(stockData) {
+    console.log(stockData)
     console.log(JSON.stringify(stockData));
     for (let stateIndex = 0; stateIndex < stockData.stocks.length; stateIndex++) {
-      const state = stockData[stateIndex];
+      const state = stockData.stocks[stateIndex];
 
       console.log("STATE DATA:")
       console.log(state);
