@@ -32,3 +32,4 @@ jobs:
         run: npm start
         env:
           PRODUCT_URL: "https://www.kitchenwarehouse.com.au/KitchenAid-Accessory-Pasta-Roller-Set"
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
