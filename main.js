@@ -81,7 +81,7 @@ if (exitWithError) {
         console.log(location);
 
         // Push availability data
-        stockAvailability.push({ ...location, state: state.name });
+        stockAvailability.push({ ...location, state: state.name, stateId: state.id });
       }
     }
 
