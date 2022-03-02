@@ -68,20 +68,21 @@ if (exitWithError) {
   // });
 
   async function processData(stockData) {
-    console.log(stockData)
-    console.log(JSON.stringify(stockData));
+    console.log(stockData);
 
     var stockAvailability = [];
 
     for (let stateIndex = 0; stateIndex < stockData.stocks.length; stateIndex++) {
       const state = stockData.stocks[stateIndex];
+      console.log("STATE:", state.id);
+      console.log(state);
 
       for (let locationIndex = 0; locationIndex < state.locations.length; locationIndex++) {
         const location = state.locations[locationIndex];
         console.log(location);
 
         // Push availability data
-        stockAvailability.push({ ...location, state: state.name, stateId: state.id });
+        stockAvailability.push({ ...location, state: { id: state.id, name: state.name } });
       }
     }
 
