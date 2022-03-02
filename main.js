@@ -39,9 +39,24 @@ if (exitWithError) {
 
   page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36");
 
+  // Intercept requests
+  page.setRequestInterception(true);
+  page.on('request', (req) => {
+    let reqUrl = req.url();
+    if (reqUrl.startsWith("https://")) {
+      if (reqUrl.startsWith("https://www.kitchenwarehouse.com.au")) {
+        console.log("->", reqUrl);
+      } else {
+        console.log("Aborting request for third-party service:", reqUrl)
+        await req.abort()
+
+      }
+    }
+  })
+
   // Intercept responses
   page.on('response', (resp) => {
-    console.log("Response received from:", resp.url())
+    console.log("<-", resp.url())
   })
 
   await page.goto(productURL, {
@@ -50,7 +65,8 @@ if (exitWithError) {
       "domcontentloaded",
       "networkidle0",
       "networkidle2",
-    ]
+    ],
+    timeout: 60000, // Give it a good minute to finish loading the page
   });
 
   // Things to do if a discord webhook has been specified
