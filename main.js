@@ -124,7 +124,7 @@ if (exitWithError) {
       // Create webhook fields for state summary
       for (store of stockAvailability) {
         webhookFields.push({
-          name: store.name,
+          name: `${store.name} (${store.stateId})`,
           value: store.available,
           inline: true
         })
