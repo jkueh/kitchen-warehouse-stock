@@ -32,9 +32,3 @@ jobs:
         run: npm start
         env:
           PRODUCT_URL: "https://www.kitchenwarehouse.com.au/KitchenAid-Accessory-Pasta-Roller-Set"
-      
-      - name: Upload screenshot
-        uses: actions/upload-artifact@v2
-        with:
-          name: screenshot
-          path: screenshot.png

@@ -75,11 +75,12 @@ if (exitWithError) {
     console.log("<-", respUrl)
     if (respUrl.startsWith("https://www.kitchenwarehouse.com.au/app/site/hosting/scriptlet.nl")) {
       if (/script=3587/.test(respUrl) && /type=check_stock/.test(respUrl)) {
+        page.close();
         stockPayload = JSON.parse(await resp.text())
         console.log(stockPayload);
       }
     }
-  })
+  });
 
   await page.goto(productURL, {
     waitUntil: [
@@ -130,8 +131,6 @@ if (exitWithError) {
       }
     ]);
   }
-
-  await page.screenshot({ path: 'screenshot.png' });
 
   await browser.close();
   console.log("All done!");
