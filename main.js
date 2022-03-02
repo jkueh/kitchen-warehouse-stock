@@ -93,21 +93,21 @@ if (exitWithError) {
 
       // Build the string
       var messageArr = [];
-      for (const [key, value] of Object.entries(appointmentData)) {
-        messageArr.push(`${key}: ${value}`);
+      for (store of stockAvailability) {
+        messageArr.push(`${store.state}: ${store.available}`);
       }
 
-      var webhookFields = [];
-      for (const [key, value] of Object.entries(appointmentData)) {
-        let date = new Date(Date.parse(key));
-        // let dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
-        webhookFields.push({ name: date.toDateString(), value: value, inline: false });
+      // var webhookFields = [];
+      // for (store of stockAvailability) {
+      //   // webhookFields.push({ name: date.toDateString(), value: value, inline: false });
+      //   // webhookFields.push({ name: "Store", value: store.name });
+      //   // webhookFields.push({ name: "Stock Available", value: store.available });
 
-        // Break out of this loop if webhookFields is equal to or greater than maxRows.
-        if (webhookFields.length >= maxRows) {
-          break;
-        }
-      }
+      //   // Break out of this loop if webhookFields is equal to or greater than maxRows.
+      //   if (webhookFields.length >= maxRows) {
+      //     break;
+      //   }
+      // }
 
       webhookFooter = {};
       if (githubRefName) {
@@ -119,7 +119,8 @@ if (exitWithError) {
       // await webhook.send(`<@168004824628068352> BVMS Appointments:\n\`\`\`${messageArr.join("\n")}\`\`\``);
       await webhook.send(`<@168004824628068352>`, [
         {
-          title: `Appointments available at Bupa ${locationName}`,
+          title: `Current Stock Levels`,
+          content: messageArr,
           fields: webhookFields,
           footer: webhookFooter,
         }

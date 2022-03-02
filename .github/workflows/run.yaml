@@ -2,9 +2,9 @@ on:
   push:
     branches:
       - "*"
-  # schedule:
-  #   # 6AM (7PM UTC)
-  #   - cron: '2  19 * * *'
+  schedule:
+    # 6AM (7PM UTC)
+    - cron: '2 19 * * *'
   workflow_dispatch: {}
 
 name: Scrape Data
