@@ -1,0 +1,19 @@
+{
+  "name": "jkueh-bmvs-finder",
+  "version": "1.0.0",
+  "description": "Finds appointments in BMVS (Bupa Medical Visa Services): https://bmvs.onlineappointmentscheduling.net.au/oasis/",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com:zerocube/jkueh-bmvs-finder"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "simple-discord-webhooks": "^1.1.1"
+  }
+}
