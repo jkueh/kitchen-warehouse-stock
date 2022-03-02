@@ -36,7 +36,13 @@ if (exitWithError) {
   if (debug == true) {
     page.on('console', consoleObj => console.log(consoleObj.text()));
   }
+
   page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36");
+
+  // Intercept responses
+  page.on('response', (resp) => {
+    console.log("Response received from:", resp.url())
+  })
 
   await page.goto(productURL, {
     waitUntil: [
