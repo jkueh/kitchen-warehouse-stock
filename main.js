@@ -145,4 +145,5 @@ if (exitWithError) {
   console.log("All done!");
 })().catch((reason) => {
   console.error(reason);
+  process.exit(1);
 });
