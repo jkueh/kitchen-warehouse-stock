@@ -121,7 +121,7 @@ if (exitWithError) {
         {
           title: `Current Stock Levels`,
           content: messageArr,
-          fields: webhookFields,
+          // fields: webhookFields,
           footer: webhookFooter,
         }
       ]);
