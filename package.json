@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "fingerprint-generator": "^1.0.0",
     "fingerprint-injector": "^1.0.0",
     "simple-discord-webhooks": "^1.1.1"
   }
