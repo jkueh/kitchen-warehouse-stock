@@ -126,4 +126,6 @@ if (exitWithError) {
 
   await browser.close();
   console.log("All done!");
-})();
+})().catch((reason) => {
+  console.error(reason);
+});
