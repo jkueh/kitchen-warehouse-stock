@@ -70,14 +70,22 @@ if (exitWithError) {
   async function processData(stockData) {
     console.log(stockData)
     console.log(JSON.stringify(stockData));
+
+    var stockAvailability = [];
+
     for (let stateIndex = 0; stateIndex < stockData.stocks.length; stateIndex++) {
       const state = stockData.stocks[stateIndex];
 
       for (let locationIndex = 0; locationIndex < state.locations.length; locationIndex++) {
         const location = state.locations[locationIndex];
         console.log(location);
+
+        // Push availability data
+        stockAvailability.push({ ...location, state: state.name });
       }
     }
+
+    console.log("All Stock Data:", stockAvailability)
 
     // Things to do if a discord webhook has been specified
     if (discordWebhookURL) {
