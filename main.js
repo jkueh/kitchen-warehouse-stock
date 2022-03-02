@@ -70,7 +70,7 @@ if (exitWithError) {
   var stockData = [];
 
   // Intercept responses
-  page.on('response', (resp) => {
+  page.on('response', async (resp) => {
     respUrl = resp.url();
     console.log("<-", respUrl)
     if (respUrl.startsWith("https://www.kitchenwarehouse.com.au/app/site/hosting/scriptlet.nl")) {
