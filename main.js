@@ -71,6 +71,7 @@ if (exitWithError) {
     console.log(JSON.stringify(stockData));
     for (let stateIndex = 0; stateIndex < stockData.stocks.length; stateIndex++) {
       const state = stockData[stateIndex];
+      console.log(state);
       for (let locationIndex = 0; locationIndex < state.locations.length; locationIndex++) {
         const location = state.locations[locationIndex];
         console.log(location);
