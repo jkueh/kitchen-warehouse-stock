@@ -67,7 +67,56 @@ if (exitWithError) {
   //   }
   // });
 
-  var stockData = [];
+  async function processData(stockData) {
+
+    for (let stateIndex = 0; stateIndex < stockData.stocks.length; stateIndex++) {
+      const state = stockData[stateIndex];
+      for (let locationIndex = 0; locationIndex < state.locations.length; locationIndex++) {
+        const location = state.locations[locationIndex];
+        console.log(location);
+      }
+    }
+
+    // Things to do if a discord webhook has been specified
+    if (discordWebhookURL) {
+      // Send the webhook
+      const webhook = new Webhook(discordWebhookURL);
+
+      // Build the string
+      var messageArr = [];
+      for (const [key, value] of Object.entries(appointmentData)) {
+        messageArr.push(`${key}: ${value}`);
+      }
+
+      var webhookFields = [];
+      for (const [key, value] of Object.entries(appointmentData)) {
+        let date = new Date(Date.parse(key));
+        // let dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+        webhookFields.push({ name: date.toDateString(), value: value, inline: false });
+
+        // Break out of this loop if webhookFields is equal to or greater than maxRows.
+        if (webhookFields.length >= maxRows) {
+          break;
+        }
+      }
+
+      webhookFooter = {};
+      if (githubRefName) {
+        webhookFooter.text = `via GitHub ref ${githubRefName}`;
+        webhookFooter.url = `https://github.com/jkueh/kitchen-warehouse-stock/runs/${githubJobId}`;
+      }
+
+      console.log("Sending webhook");
+      // await webhook.send(`<@168004824628068352> BVMS Appointments:\n\`\`\`${messageArr.join("\n")}\`\`\``);
+      await webhook.send(`<@168004824628068352>`, [
+        {
+          title: `Appointments available at Bupa ${locationName}`,
+          fields: webhookFields,
+          footer: webhookFooter,
+        }
+      ]);
+    }
+  }
 
   // Intercept responses
   page.on('response', async (resp) => {
@@ -75,8 +124,7 @@ if (exitWithError) {
     // console.log("<-", respUrl)
     if (respUrl.startsWith("https://www.kitchenwarehouse.com.au/app/site/hosting/scriptlet.nl")) {
       if (/script=3587/.test(respUrl) && /type=check_stock/.test(respUrl)) {
-        stockPayload = JSON.parse(await resp.text())
-        console.log(stockPayload);
+        await processData(JSON.parse(await resp.text()));
       }
     }
   })
@@ -90,46 +138,6 @@ if (exitWithError) {
     ],
     timeout: 60000, // Give it a good minute to finish loading the page
   });
-
-  // Things to do if a discord webhook has been specified
-  if (discordWebhookURL) {
-    // Send the webhook
-    const webhook = new Webhook(discordWebhookURL);
-
-    // Build the string
-    var messageArr = [];
-    for (const [key, value] of Object.entries(appointmentData)) {
-      messageArr.push(`${key}: ${value}`);
-    }
-
-    var webhookFields = [];
-    for (const [key, value] of Object.entries(appointmentData)) {
-      let date = new Date(Date.parse(key));
-      // let dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
-      webhookFields.push({ name: date.toDateString(), value: value, inline: false });
-
-      // Break out of this loop if webhookFields is equal to or greater than maxRows.
-      if (webhookFields.length >= maxRows) {
-        break;
-      }
-    }
-
-    webhookFooter = {};
-    if (githubRefName) {
-      webhookFooter.text = `via GitHub ref ${githubRefName}`;
-      webhookFooter.url = `https://github.com/jkueh/kitchen-warehouse-stock/runs/${githubJobId}`;
-    }
-
-    console.log("Sending webhook");
-    // await webhook.send(`<@168004824628068352> BVMS Appointments:\n\`\`\`${messageArr.join("\n")}\`\`\``);
-    await webhook.send(`<@168004824628068352>`, [
-      {
-        title: `Appointments available at Bupa ${locationName}`,
-        fields: webhookFields,
-        footer: webhookFooter,
-      }
-    ]);
-  }
 
   await page.screenshot({ path: 'screenshot.png' });
 
