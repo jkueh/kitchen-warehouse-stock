@@ -117,7 +117,7 @@ if (exitWithError) {
 
       var totalStock = 0;
       for (store of stockAvailability) {
-        totalStock += store.available;
+        totalStock += parseInt(store.available);
       }
       webhookFields.push({ name: "Total Stock", value: totalStock });
 
