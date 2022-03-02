@@ -43,7 +43,7 @@ if (exitWithError) {
       height: 1080
     },
     executablePath: path.resolve("/usr/bin/google-chrome"),
-    headless: false,
+    headless: true,
   });
   const page = await browser.newPage();
   await fingerprintInjector.attachFingerprintToPuppeteer(page, fingerprint);
