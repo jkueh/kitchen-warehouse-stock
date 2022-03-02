@@ -117,10 +117,9 @@ if (exitWithError) {
 
       console.log("Sending webhook");
       // await webhook.send(`<@168004824628068352> BVMS Appointments:\n\`\`\`${messageArr.join("\n")}\`\`\``);
-      await webhook.send(`<@168004824628068352>`, [
+      await webhook.send(`<@168004824628068352>\n${messageArr.join("\n")}`, [
         {
           title: `Current Stock Levels`,
-          content: messageArr,
           // fields: webhookFields,
           footer: webhookFooter,
         }
