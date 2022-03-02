@@ -94,7 +94,7 @@ if (exitWithError) {
       // Build the string
       var messageArr = [];
       for (store of stockAvailability) {
-        messageArr.push(`${store.state}: ${store.available}`);
+        messageArr.push(`${store.state}: \t${store.available}`);
       }
 
       var webhookFields = [];
