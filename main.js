@@ -48,8 +48,7 @@ if (exitWithError) {
         console.log("->", reqUrl);
       } else {
         console.log("Aborting request for third-party service:", reqUrl)
-        await req.abort()
-
+        req.abort()
       }
     }
   })
