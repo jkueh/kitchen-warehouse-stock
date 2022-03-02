@@ -68,7 +68,7 @@ if (exitWithError) {
   // });
 
   async function processData(stockData) {
-
+    console.log(stockData);
     for (let stateIndex = 0; stateIndex < stockData.stocks.length; stateIndex++) {
       const state = stockData[stateIndex];
       for (let locationIndex = 0; locationIndex < state.locations.length; locationIndex++) {
@@ -124,7 +124,10 @@ if (exitWithError) {
     // console.log("<-", respUrl)
     if (respUrl.startsWith("https://www.kitchenwarehouse.com.au/app/site/hosting/scriptlet.nl")) {
       if (/script=3587/.test(respUrl) && /type=check_stock/.test(respUrl)) {
-        await processData(JSON.parse(await resp.text()));
+        await processData(JSON.parse(await resp.text())).catch((reason) => {
+          console.error(reason);
+          process.exit(254);
+        });
       }
     }
   })
